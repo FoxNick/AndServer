@@ -20,6 +20,7 @@ import androidx.annotation.Nullable;
 
 import com.yanzhenjie.andserver.util.IOUtils;
 import com.yanzhenjie.andserver.util.MediaType;
+import io.github.pixee.security.Filenames;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -64,7 +65,7 @@ public class StandardMultipartFile implements MultipartFile, Serializable {
     @Nullable
     @Override
     public String getFilename() {
-        String filename = this.fileItem.getName();
+        String filename = Filenames.toSimpleFileName(this.fileItem.getName());
         if (filename == null) {
             // Should never happen.
             return "";
