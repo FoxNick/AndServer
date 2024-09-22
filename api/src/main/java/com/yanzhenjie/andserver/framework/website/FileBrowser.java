@@ -28,6 +28,7 @@ import com.yanzhenjie.andserver.util.MediaType;
 import com.yanzhenjie.andserver.util.ObjectUtils;
 import com.yanzhenjie.andserver.util.Patterns;
 import com.yanzhenjie.andserver.util.StringUtils;
+import java.nio.file.Files;
 
 import org.apache.commons.io.Charsets;
 
@@ -105,7 +106,7 @@ public class FileBrowser extends BasicWebsite implements Patterns {
         }
 
         if (resource.isDirectory()) {
-            File tempFile = File.createTempFile("file_browser", ".html");
+            File tempFile = Files.createTempFile("file_browser", ".html").toFile();
             OutputStream outputStream = new FileOutputStream(tempFile);
 
             String folderName = resource.getName();
