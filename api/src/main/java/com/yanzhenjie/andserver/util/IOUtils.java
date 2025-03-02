@@ -19,6 +19,7 @@ import android.os.Build;
 import android.os.StatFs;
 
 import com.yanzhenjie.andserver.http.RequestBody;
+import io.github.pixee.security.BoundedLineReader;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -258,10 +259,10 @@ public class IOUtils {
     public static List<String> readLines(Reader input) throws IOException {
         BufferedReader reader = toBufferedReader(input);
         List<String> list = new ArrayList<>();
-        String line = reader.readLine();
+        String line = BoundedLineReader.readLine(reader, 5_000_000);
         while (line != null) {
             list.add(line);
-            line = reader.readLine();
+            line = BoundedLineReader.readLine(reader, 5_000_000);
         }
         return list;
     }
@@ -429,11 +430,11 @@ public class IOUtils {
         BufferedReader br1 = toBufferedReader(input1);
         BufferedReader br2 = toBufferedReader(input2);
 
-        String line1 = br1.readLine();
-        String line2 = br2.readLine();
+        String line1 = BoundedLineReader.readLine(br1, 5_000_000);
+        String line2 = BoundedLineReader.readLine(br2, 5_000_000);
         while ((line1 != null) && (line2 != null) && (line1.equals(line2))) {
-            line1 = br1.readLine();
-            line2 = br2.readLine();
+            line1 = BoundedLineReader.readLine(br1, 5_000_000);
+            line2 = BoundedLineReader.readLine(br2, 5_000_000);
         }
         return line1 != null && (line2 == null || line1.equals(line2));
     }
